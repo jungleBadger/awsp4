@@ -1,4 +1,4 @@
-FROM python:stretch
+FROM python:3
 
 WORKDIR /main
 COPY requirements.txt /main/
