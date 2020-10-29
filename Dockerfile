@@ -3,8 +3,8 @@ FROM python:stretch
 WORKDIR /main
 COPY requirements.txt /main/
 COPY . /main
-
-run pip install -r requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
 
 
 ENTRYPOINT ["gunicorn", "-b", ":8080", "main:APP"]
