@@ -1,0 +1,177 @@
+ehab@ehab-virtual-machine:~$ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-94-133.us-east-2.compute.internal   Ready    <none>   86m   v1.17.11-eks-cfdc40
+ip-192-168-94-61.us-east-2.compute.internal    Ready    <none>   86m   v1.17.11-eks-cfdc40
+ehab@ehab-virtual-machine:~$ kubectl describe node <NODE_ID>
+bash: syntax error near unexpected token `newline'
+ehab@ehab-virtual-machine:~$ kubectl describe node ip-192-168-94-133.us-east-2.compute.internal
+Name:               ip-192-168-94-133.us-east-2.compute.internal
+Roles:              <none>
+Labels:             alpha.eksctl.io/cluster-name=simple-jwt-api
+                    alpha.eksctl.io/instance-id=i-058528f7d860492b3
+                    alpha.eksctl.io/nodegroup-name=ng-a16be5db
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=m5.large
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=us-east-2
+                    failure-domain.beta.kubernetes.io/zone=us-east-2c
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=ip-192-168-94-133.us-east-2.compute.internal
+                    kubernetes.io/os=linux
+                    node-lifecycle=on-demand
+                    node.kubernetes.io/instance-type=m5.large
+                    topology.kubernetes.io/region=us-east-2
+                    topology.kubernetes.io/zone=us-east-2c
+Annotations:        node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Fri, 30 Oct 2020 17:12:35 +0200
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  ip-192-168-94-133.us-east-2.compute.internal
+  AcquireTime:     <unset>
+  RenewTime:       Fri, 30 Oct 2020 18:39:50 +0200
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Fri, 30 Oct 2020 18:38:54 +0200   Fri, 30 Oct 2020 17:12:34 +0200   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Fri, 30 Oct 2020 18:38:54 +0200   Fri, 30 Oct 2020 17:12:34 +0200   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Fri, 30 Oct 2020 18:38:54 +0200   Fri, 30 Oct 2020 17:12:34 +0200   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Fri, 30 Oct 2020 18:38:54 +0200   Fri, 30 Oct 2020 17:13:05 +0200   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:   192.168.94.133
+  ExternalIP:   52.14.65.181
+  Hostname:     ip-192-168-94-133.us-east-2.compute.internal
+  InternalDNS:  ip-192-168-94-133.us-east-2.compute.internal
+  ExternalDNS:  ec2-52-14-65-181.us-east-2.compute.amazonaws.com
+Capacity:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         2
+  ephemeral-storage:           83873772Ki
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      7951024Ki
+  pods:                        29
+Allocatable:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         1930m
+  ephemeral-storage:           76224326324
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      7260848Ki
+  pods:                        29
+System Info:
+  Machine ID:                 ec2265482eb96312a76736e672950adb
+  System UUID:                EC226548-2EB9-6312-A767-36E672950ADB
+  Boot ID:                    a9815d90-b2d4-4f9a-90db-d22caac52b32
+  Kernel Version:             4.14.198-152.320.amzn2.x86_64
+  OS Image:                   Amazon Linux 2
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  docker://19.3.6
+  Kubelet Version:            v1.17.11-eks-cfdc40
+  Kube-Proxy Version:         v1.17.11-eks-cfdc40
+ProviderID:                   aws:///us-east-2c/i-058528f7d860492b3
+Non-terminated Pods:          (4 in total)
+  Namespace                   Name                        CPU Requests  CPU Limits  Memory Requests  Memory Limits  AGE
+  ---------                   ----                        ------------  ----------  ---------------  -------------  ---
+  kube-system                 aws-node-7t6rv              10m (0%)      0 (0%)      0 (0%)           0 (0%)         87m
+  kube-system                 coredns-67bfd975c5-l4cm9    100m (5%)     0 (0%)      70Mi (0%)        170Mi (2%)     95m
+  kube-system                 coredns-67bfd975c5-pnms4    100m (5%)     0 (0%)      70Mi (0%)        170Mi (2%)     95m
+  kube-system                 kube-proxy-s8d6h            100m (5%)     0 (0%)      0 (0%)           0 (0%)         87m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource                    Requests    Limits
+  --------                    --------    ------
+  cpu                         310m (16%)  0 (0%)
+  memory                      140Mi (1%)  340Mi (4%)
+  ephemeral-storage           0 (0%)      0 (0%)
+  hugepages-1Gi               0 (0%)      0 (0%)
+  hugepages-2Mi               0 (0%)      0 (0%)
+  attachable-volumes-aws-ebs  0           0
+Events:                       <none>
+ehab@ehab-virtual-machine:~$ kubectl describe node ip-192-168-94-61.us-east-2.compute.internal
+Name:               ip-192-168-94-61.us-east-2.compute.internal
+Roles:              <none>
+Labels:             alpha.eksctl.io/cluster-name=simple-jwt-api
+                    alpha.eksctl.io/instance-id=i-070b661aedaf42ecb
+                    alpha.eksctl.io/nodegroup-name=ng-a16be5db
+                    beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/instance-type=m5.large
+                    beta.kubernetes.io/os=linux
+                    failure-domain.beta.kubernetes.io/region=us-east-2
+                    failure-domain.beta.kubernetes.io/zone=us-east-2c
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=ip-192-168-94-61.us-east-2.compute.internal
+                    kubernetes.io/os=linux
+                    node-lifecycle=on-demand
+                    node.kubernetes.io/instance-type=m5.large
+                    topology.kubernetes.io/region=us-east-2
+                    topology.kubernetes.io/zone=us-east-2c
+Annotations:        node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Fri, 30 Oct 2020 17:12:37 +0200
+Taints:             <none>
+Unschedulable:      false
+Lease:
+  HolderIdentity:  ip-192-168-94-61.us-east-2.compute.internal
+  AcquireTime:     <unset>
+  RenewTime:       Fri, 30 Oct 2020 18:40:22 +0200
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Fri, 30 Oct 2020 18:38:35 +0200   Fri, 30 Oct 2020 17:12:37 +0200   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Fri, 30 Oct 2020 18:38:35 +0200   Fri, 30 Oct 2020 17:12:37 +0200   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Fri, 30 Oct 2020 18:38:35 +0200   Fri, 30 Oct 2020 17:12:37 +0200   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            True    Fri, 30 Oct 2020 18:38:35 +0200   Fri, 30 Oct 2020 17:13:07 +0200   KubeletReady                 kubelet is posting ready status
+Addresses:
+  InternalIP:   192.168.94.61
+  ExternalIP:   3.22.97.232
+  Hostname:     ip-192-168-94-61.us-east-2.compute.internal
+  InternalDNS:  ip-192-168-94-61.us-east-2.compute.internal
+  ExternalDNS:  ec2-3-22-97-232.us-east-2.compute.amazonaws.com
+Capacity:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         2
+  ephemeral-storage:           83873772Ki
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      7865008Ki
+  pods:                        29
+Allocatable:
+  attachable-volumes-aws-ebs:  25
+  cpu:                         1930m
+  ephemeral-storage:           76224326324
+  hugepages-1Gi:               0
+  hugepages-2Mi:               0
+  memory:                      7174832Ki
+  pods:                        29
+System Info:
+  Machine ID:                 ec2b4bfc26feb7bec91a442d1576625b
+  System UUID:                EC2B4BFC-26FE-B7BE-C91A-442D1576625B
+  Boot ID:                    2166bffd-987b-425d-903c-94e3f28a68b7
+  Kernel Version:             4.14.198-152.320.amzn2.x86_64
+  OS Image:                   Amazon Linux 2
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  docker://19.3.6
+  Kubelet Version:            v1.17.11-eks-cfdc40
+  Kube-Proxy Version:         v1.17.11-eks-cfdc40
+ProviderID:                   aws:///us-east-2c/i-070b661aedaf42ecb
+Non-terminated Pods:          (2 in total)
+  Namespace                   Name                CPU Requests  CPU Limits  Memory Requests  Memory Limits  AGE
+  ---------                   ----                ------------  ----------  ---------------  -------------  ---
+  kube-system                 aws-node-kn4wd      10m (0%)      0 (0%)      0 (0%)           0 (0%)         87m
+  kube-system                 kube-proxy-hxj8r    100m (5%)     0 (0%)      0 (0%)           0 (0%)         87m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource                    Requests   Limits
+  --------                    --------   ------
+  cpu                         110m (5%)  0 (0%)
+  memory                      0 (0%)     0 (0%)
+  ephemeral-storage           0 (0%)     0 (0%)
+  hugepages-1Gi               0 (0%)     0 (0%)
+  hugepages-2Mi               0 (0%)     0 (0%)
+  attachable-volumes-aws-ebs  0          0
+Events:                       <none>
+ehab@ehab-virtual-machine:~$ 
