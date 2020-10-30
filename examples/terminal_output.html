@@ -1,0 +1,54 @@
+ehab@ehab-virtual-machine:~$ eksctl create cluster --name simple-jwt-api
+[ℹ]  eksctl version 0.31.0-rc.0
+[ℹ]  using region us-east-2
+[ℹ]  setting availability zones to [us-east-2a us-east-2b us-east-2c]
+[ℹ]  subnets for us-east-2a - public:192.168.0.0/19 private:192.168.96.0/19
+[ℹ]  subnets for us-east-2b - public:192.168.32.0/19 private:192.168.128.0/19
+[ℹ]  subnets for us-east-2c - public:192.168.64.0/19 private:192.168.160.0/19
+[ℹ]  nodegroup "ng-a16be5db" will use "ami-0135903686f192ffe" [AmazonLinux2/1.17]
+[ℹ]  using Kubernetes version 1.17
+[ℹ]  creating EKS cluster "simple-jwt-api" in "us-east-2" region with un-managed nodes
+[ℹ]  will create 2 separate CloudFormation stacks for cluster itself and the initial nodegroup
+[ℹ]  if you encounter any issues, check CloudFormation console or try 'eksctl utils describe-stacks --region=us-east-2 --cluster=simple-jwt-api'
+[ℹ]  CloudWatch logging will not be enabled for cluster "simple-jwt-api" in "us-east-2"
+[ℹ]  you can enable it with 'eksctl utils update-cluster-logging --enable-types={SPECIFY-YOUR-LOG-TYPES-HERE (e.g. all)} --region=us-east-2 --cluster=simple-jwt-api'
+[ℹ]  Kubernetes API endpoint access will use default of {publicAccess=true, privateAccess=false} for cluster "simple-jwt-api" in "us-east-2"
+[ℹ]  2 sequential tasks: { create cluster control plane "simple-jwt-api", 2 sequential sub-tasks: { no tasks, create nodegroup "ng-a16be5db" } }
+[ℹ]  building cluster stack "eksctl-simple-jwt-api-cluster"
+[ℹ]  deploying stack "eksctl-simple-jwt-api-cluster"
+[ℹ]  building nodegroup stack "eksctl-simple-jwt-api-nodegroup-ng-a16be5db"
+[ℹ]  --nodes-min=2 was set automatically for nodegroup ng-a16be5db
+[ℹ]  --nodes-max=2 was set automatically for nodegroup ng-a16be5db
+[ℹ]  deploying stack "eksctl-simple-jwt-api-nodegroup-ng-a16be5db"
+[ℹ]  waiting for the control plane availability...
+[✔]  saved kubeconfig as "/home/ehab/.kube/config"
+[ℹ]  no tasks
+[✔]  all EKS cluster resources for "simple-jwt-api" have been created
+[ℹ]  adding identity "arn:aws:iam::223637160564:role/eksctl-simple-jwt-api-nodegroup-n-NodeInstanceRole-1PC002L25K0OH" to auth ConfigMap
+[ℹ]  nodegroup "ng-a16be5db" has 0 node(s)
+[ℹ]  waiting for at least 2 node(s) to become ready in "ng-a16be5db"
+[ℹ]  nodegroup "ng-a16be5db" has 2 node(s)
+[ℹ]  node "ip-192-168-94-133.us-east-2.compute.internal" is ready
+[ℹ]  node "ip-192-168-94-61.us-east-2.compute.internal" is ready
+[ℹ]  kubectl command should work with "/home/ehab/.kube/config", try 'kubectl get nodes'
+[✔]  EKS cluster "simple-jwt-api" in "us-east-2" region is ready
+ehab@ehab-virtual-machine:~$ aws ssm put-parameter --name JWT_SECRET --value "fsndc4" --type  SecureString
+{
+    "Version": 1,
+    "Tier": "Standard"
+}
+ehab@ehab-virtual-machine:~$ ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+ehab@ehab-virtual-machine:~$ TRUST="{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\",  \"Principal\": { \"AWS\": \"arn:aws:iam::${ACCOUNT_ID}:root\" }, \"Action\":  \"sts:AssumeRole\" } ] }"
+ehab@ehab-virtual-machine:~$ echo $TRUST
+{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "AWS": "arn:aws:iam::223637160564:root" }, "Action": "sts:AssumeRole" } ] }
+ehab@ehab-virtual-machine:~$ aws iam create-role --role-name UdacityFlaskDeployCBKubectlRole --assume-role-policy-document "$TRUST" --output text --query 'Role.Arn'
+arn:aws:iam::223637160564:role/UdacityFlaskDeployCBKubectlRole
+ehab@ehab-virtual-machine:~$ echo '{ "Version": "2012-10-17", "Statement": [ { "Effect": "Allow", "Action": [ "eks:Describe*", "ssm:GetParameters" ], "Resource": "*" } ] }' > ./iam-role-policy
+ehab@ehab-virtual-machine:~$ aws iam put-role-policy --role-name UdacityFlaskDeployCBKubectlRole --policy-name eks-describe --policy-document file://./iam-role-policy
+ehab@ehab-virtual-machine:~$ kubectl get -n kube-system configmap/aws-auth -o yaml > ./aws-auth-patch.yml
+ehab@ehab-virtual-machine:~$ code aws-auth-patch.yml 
+ehab@ehab-virtual-machine:~$ kubectl patch configmap/aws-auth -n kube-system --patch "$(cat ./aws-auth-patch.yml)"
+configmap/aws-auth patched
+ehab@ehab-virtual-machine:~$ kubectl get services simple-jwt-api -o wide
+Error from server (NotFound): services "simple-jwt-api" not found
+ehab@ehab-virtual-machine:~$ 
